@@ -5,10 +5,10 @@ void testApp::setup(){
     
     //Brings in image, draws lines around it, control over OSC
 
-    camSize.x = 640;
+    camSize.x = 640; //keeping this small for examples, but change this if necessary
     camSize.y = 480;
     
-    //Allocate for CV
+    //Allocate for CV...shrinking if necessary
     if (camSize.x>=320 || camSize.y>=240) {
         
         colorImg.allocate(320, 240);
@@ -40,9 +40,6 @@ void testApp::setup(){
     fboSyphonOut.begin();
     ofClear(0,0,0,0);
     fboSyphonOut.end();
-    
-    cvWidth = camSize.x;
-    cvHeight = camSize.y;
 
    
 	bLearnBakground = true;
@@ -56,14 +53,14 @@ void testApp::setup(){
     syphonInput.setup();
     syphonInput.setApplicationName(syphonAppIn);
     syphonInput.setServerName("To_CV_1");
-    
     syphonOutput.setName("from_CV");
     
     //Info
     overView = false;
     
     //OSC
-    vdmxOscIn.setup(3141);
+    vdmxOscIn.setup(3141); //VDMX OUTGOING OSC PORT
+    vdmxOscOut.setup(HOST, PORT);
     
     //Initial values for CV
     colorize = false;
@@ -86,7 +83,7 @@ void testApp::update(){
 	ofBackground(100,100,100);
         
     if (camSize.x>=320 || camSize.y>=240) {
-        pix.resize(320, 240);     //let's keep this small...
+        pix.resize(320, 240);     //let's keep this small...no need to process much more than this
     }
     
     colorImg.setFromPixels(pix);
@@ -103,39 +100,34 @@ void testApp::update(){
 
     contourFinder.findContours(grayDiff, 20, (320*240)/3, 10, true);	
     
-    // check for waiting messages
+    // check for waiting messages in OSC - add new OSC messages in here
 	while(vdmxOscIn.hasWaitingMessages()){
         
 		// get the next message
 		ofxOscMessage m;
 		vdmxOscIn.getNextMessage(&m);
         
-	
 		if(m.getAddress() == "/FromVDMX/threshold"){
 			threshold = 255*m.getArgAsFloat(0);
 		}
         if(m.getAddress() == "/FromVDMX/colorize"){
-			colorize = m.getArgAsFloat(0);
+			colorize = m.getArgAsFloat(0); //eh..incoming as bool..
 		}
         if(m.getAddress() == "/FromVDMX/lineThickness"){
 			lineThick = 0.001+10*m.getArgAsFloat(0);
 		}
-        
         if(m.getAddress() == "/FromVDMX/mystery"){
 			mystery = m.getArgAsFloat(0);
 		}
-        
         if(m.getAddress() == "/FromVDMX/mystery2"){
 			mystery2 = m.getArgAsFloat(0);
 		}
-        
         if (m.getAddress() == "/FromVDMX/backgroundCapture") {
             bLearnBakground = m.getArgAsFloat(0);
         }
         if (m.getAddress() == "/FromVDMX/fillInContours") {
             fillInContours = m.getArgAsFloat(0);
         }
-        
         if (m.getAddress() == "/FromVDMX/mysterySwitch") {
             mysterySwitch = m.getArgAsFloat(0);
         }
@@ -145,6 +137,9 @@ void testApp::update(){
         }
         if (m.getAddress() == "/FromVDMX/extraSketches") {
             extraSketches = m.getArgAsFloat(0);
+        }
+        if (m.getAddress() == "/FromVDMX/extraSketches") {
+            boundingBox = m.getArgAsFloat(0);
         }
     }
 
@@ -207,20 +202,41 @@ void testApp::drawContours(ofVec2f pos, ofVec2f contourSize){
 
     
     if(colorize){
-        colorHold.setFromPixels(pix.getPixels(), camSize.x, camSize.y, OF_IMAGE_COLOR); //sample the color image for use later
-
+        colorHold.setFromPixels(pix.getPixels(), camSize.x, camSize.y, OF_IMAGE_COLOR); //sample the color image for use later. Done here so it's not sampling 1000 times within the for loop
     }
+    
+
     
     if (camSize.x>=320 || camSize.y>=240) {
         cvWidth=320;
         cvHeight = 240;
+    }else{
+        cvWidth = camSize.x;
+        cvHeight = camSize.y;
     }
 
     ofPushMatrix();
     ofTranslate(pos.x, pos.y); //move the whole thing over
     
     
+    //let's process these blobs...
     for(int i=0; i<(int)contourFinder.blobs.size(); i++ ) {
+        
+        //First, lets send the centroid of each blob over OSC
+        if(i<10){ //but only the first 10 so we don't go too crazy...
+            ofxOscMessage x;
+            x.setAddress("/CV_OUT/blob/"+ofToString(i)+"/x");
+            mapCent.x = ofMap(contourFinder.blobs[i].centroid.x, 0, cvWidth,0, 1.0); //lets scale these from 0-1.0 instead for ease....
+            x.addFloatArg(mapCent.x);
+
+            vdmxOscOut.sendMessage(x);
+            ofxOscMessage y;
+            y.setAddress("/CV_OUT/blob/"+ofToString(i)+"/y");
+            mapCent.y = ofMap(contourFinder.blobs[i].centroid.y, 0, cvHeight,0, 1.0);
+      
+            y.addFloatArg(mapCent.y);
+            vdmxOscOut.sendMessage(y);
+        }
         
         if(fillInContours){
             ofFill();
@@ -232,18 +248,16 @@ void testApp::drawContours(ofVec2f pos, ofVec2f contourSize){
         
         ofBeginShape();
         
+        //For each blob, go through it's individual points and draw a shape
         for( int j=0; j<contourFinder.blobs[i].nPts; j=j+ofMap(mystery, 0, 1, 1, 70)) {
             mapPt.x=ofMap(contourFinder.blobs[i].pts[j].x, 0, cvWidth, 0, contourSize.x);
             mapPt.y=ofMap(contourFinder.blobs[i].pts[j].y, 0, cvHeight, 0, contourSize.y);
              
             float numPts = contourFinder.blobs[i].nPts;
-            float positionNum = j;
+            float positionNum = j; //cast to float was being a pain when dividing...doing it this way for now
             ofVertex(mapPt.x + noiseAmount*ofSignedNoise(10*(positionNum/numPts)+5*ofGetElapsedTimef()),
                      mapPt.y + noiseAmount*ofSignedNoise(10*(positionNum/numPts)+10*ofGetElapsedTimef()) ); //add extra vertices
-            
- 
-  
-            
+            //Colorize the blob
             if(colorize){
                 blobColor.set(colorHold.getColor(mapPt.x, mapPt.y));
                 ofSetColor(blobColor);
@@ -251,6 +265,7 @@ void testApp::drawContours(ofVec2f pos, ofVec2f contourSize){
                 ofSetColor(255);
             }
             
+            //Draw lines from the centroid to the outside edges
             if(mysterySwitch){
                 mapCent.x = ofMap(contourFinder.blobs[i].centroid.x, 0, cvWidth,0, contourSize.x);
                 mapCent.y = ofMap(contourFinder.blobs[i].centroid.y, 0, cvHeight,0, contourSize.y);
@@ -261,6 +276,7 @@ void testApp::drawContours(ofVec2f pos, ofVec2f contourSize){
             }
         }
         
+        //Draw random sketches over all the other lines
         if(extraSketches){
             //ExtraSketches - just draws extra points in at varying positions
             if (mystery2>0) {    
@@ -277,16 +293,17 @@ void testApp::drawContours(ofVec2f pos, ofVec2f contourSize){
 
         ofEndShape();  
     }
-    
-    ofPushStyle();
-    ofNoFill();
-	for( int i=0; i<contourFinder.blobs.size(); i++ ) {
-		ofRect( ofMap(contourFinder.blobs[i].boundingRect.x, 0,cvWidth,0,contourSize.x), 
-               ofMap(contourFinder.blobs[i].boundingRect.y, 0,cvHeight,0,contourSize.y),
-               ofMap(contourFinder.blobs[i].boundingRect.width, 0,cvWidth,0,contourSize.x), 
-               ofMap(contourFinder.blobs[i].boundingRect.height, 0,cvHeight,0,contourSize.y) );
-	}
-    ofPopStyle();
+    if(boundingBox){
+        ofPushStyle();
+        ofNoFill();
+        for( int i=0; i<contourFinder.blobs.size(); i++ ) {
+            ofRect( ofMap(contourFinder.blobs[i].boundingRect.x, 0,cvWidth,0,contourSize.x), 
+                   ofMap(contourFinder.blobs[i].boundingRect.y, 0,cvHeight,0,contourSize.y),
+                   ofMap(contourFinder.blobs[i].boundingRect.width, 0,cvWidth,0,contourSize.x), 
+                   ofMap(contourFinder.blobs[i].boundingRect.height, 0,cvHeight,0,contourSize.y) );
+        }
+        ofPopStyle();
+    }
     
     ofPopMatrix();
 }
@@ -316,7 +333,7 @@ void testApp::keyPressed(int key){
             ofSetWindowShape(1280, 720);
             break;
         case '3':
-            ofSetWindowShape(1920, 1080);
+            ofSetWindowShape(1920, 1080); //eh...
             break;
 	}
 }
@@ -348,10 +365,8 @@ void testApp::mouseReleased(int x, int y, int button){
 
 //--------------------------------------------------------------
 void testApp::windowResized(int w, int h){
-    //Brings in image, draws lines around it, control over OSC
-    
-    //ofSleepMillis(500);
-    
+  
+    //Re-allocate if window size changes. Linked to a key because it will cause issues if trying to drag to resize
     camSize.x = w;
     camSize.y = h;
     

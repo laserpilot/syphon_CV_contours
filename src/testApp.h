@@ -6,6 +6,8 @@
 #include "ofxOpenCv.h"
 #include "ofxOsc.h"
 
+#define HOST "localhost"
+#define PORT 3142
 
 class testApp : public ofBaseApp{
 
@@ -25,39 +27,35 @@ class testApp : public ofBaseApp{
 		void gotMessage(ofMessage msg);		
         void drawContours(ofVec2f pos, ofVec2f contourSize);
     
-    void exit();
-    void changeResolution();
+        void exit();
+        void changeResolution();
 
-        ofVideoGrabber 		vidGrabber; //REMOVE
-
+    //Syphon
         ofxSyphonClient syphonInput;
         ofxSyphonServer syphonOutput;
-        ofPixels pix;
-    
         string syphonAppIn, syphonAppOut;
     
+    //Copying operations
+        ofPixels pix;
         ofVec2f camSize;
         ofTexture tex1;
         ofFbo fboSyphonIn;
         ofFbo fboSyphonOut;
     
-    
         ofxCvColorImage			colorImg;
-
         ofxCvGrayscaleImage 	grayImage;
 		ofxCvGrayscaleImage 	grayBg;
 		ofxCvGrayscaleImage 	grayDiff;
-
         ofxCvContourFinder 	contourFinder;
     
-        
-
-		int 				threshold;
-		bool				bLearnBakground;
+		int 	threshold;
+		bool	bLearnBakground;
 
         bool overView;
     
+       //OSC
         ofxOscReceiver  vdmxOscIn;
+        ofxOscSender  vdmxOscOut;
         bool colorize;
     
         //contour drawing options
@@ -69,7 +67,7 @@ class testApp : public ofBaseApp{
         float mystery;
     
         ofPoint mapPt, mapCent;
-    
+ 
         int cvWidth;
         int cvHeight;
     
@@ -79,6 +77,7 @@ class testApp : public ofBaseApp{
         bool fillInContours;
         int noiseAmount;
         bool extraSketches;
+        bool boundingBox;
     
     
 
