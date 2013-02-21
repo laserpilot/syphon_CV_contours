@@ -10,6 +10,10 @@
 		169d3c72fde6c5590a1616f500a456b4 /* ofxCvFloatImage.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 7b6a03390302d5a2c9f0e4ab630ae8d6 /* ofxCvFloatImage.cpp */; };
 		1d5f3298c2fa073628012944b1efde88 /* ofxCvContourFinder.cpp in Sources */ = {isa = PBXBuildFile; fileRef = c76de5c29bdbd2caa1dd0021a7376220 /* ofxCvContourFinder.cpp */; };
 		250a95ba26587be85db0a353e6e1dea2 /* ofxCvColorImage.cpp in Sources */ = {isa = PBXBuildFile; fileRef = ce9c7160245b19131dae61282ee6cb53 /* ofxCvColorImage.cpp */; };
+		5070B03116D59613005AC082 /* tinyxml.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 5070B02A16D59613005AC082 /* tinyxml.cpp */; };
+		5070B03216D59613005AC082 /* tinyxmlerror.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 5070B02C16D59613005AC082 /* tinyxmlerror.cpp */; };
+		5070B03316D59613005AC082 /* tinyxmlparser.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 5070B02D16D59613005AC082 /* tinyxmlparser.cpp */; };
+		5070B03416D59613005AC082 /* ofxXmlSettings.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 5070B02F16D59613005AC082 /* ofxXmlSettings.cpp */; };
 		5079B5A716CB3705007E274F /* IpEndpointName.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 5079B58316CB3705007E274F /* IpEndpointName.cpp */; };
 		5079B5A816CB3705007E274F /* NetworkingUtils.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 5079B58816CB3705007E274F /* NetworkingUtils.cpp */; };
 		5079B5A916CB3705007E274F /* UdpSocket.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 5079B58916CB3705007E274F /* UdpSocket.cpp */; };
@@ -105,6 +109,12 @@
 		45410dd818bb205166e67e89e7443a54 /* any.h */ = {isa = PBXFileReference; explicitFileType = sourcecode.c.h; fileEncoding = 30; name = any.h; path = ../../../addons/ofxOpenCv/libs/opencv/include/opencv2/flann/any.h; sourceTree = SOURCE_ROOT; };
 		45f38573a0b0deec8bbc7a2c680cffc4 /* simplex_downhill.h */ = {isa = PBXFileReference; explicitFileType = sourcecode.c.h; fileEncoding = 30; name = simplex_downhill.h; path = ../../../addons/ofxOpenCv/libs/opencv/include/opencv2/flann/simplex_downhill.h; sourceTree = SOURCE_ROOT; };
 		49effcf36cf194cce0e1faabecebbc9b /* kdtree_index.h */ = {isa = PBXFileReference; explicitFileType = sourcecode.c.h; fileEncoding = 30; name = kdtree_index.h; path = ../../../addons/ofxOpenCv/libs/opencv/include/opencv2/flann/kdtree_index.h; sourceTree = SOURCE_ROOT; };
+		5070B02A16D59613005AC082 /* tinyxml.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = tinyxml.cpp; sourceTree = "<group>"; };
+		5070B02B16D59613005AC082 /* tinyxml.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = tinyxml.h; sourceTree = "<group>"; };
+		5070B02C16D59613005AC082 /* tinyxmlerror.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = tinyxmlerror.cpp; sourceTree = "<group>"; };
+		5070B02D16D59613005AC082 /* tinyxmlparser.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = tinyxmlparser.cpp; sourceTree = "<group>"; };
+		5070B02F16D59613005AC082 /* ofxXmlSettings.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = ofxXmlSettings.cpp; sourceTree = "<group>"; };
+		5070B03016D59613005AC082 /* ofxXmlSettings.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ofxXmlSettings.h; sourceTree = "<group>"; };
 		5079B57E16CB3705007E274F /* install.xml */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xml; path = install.xml; sourceTree = "<group>"; };
 		5079B58316CB3705007E274F /* IpEndpointName.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = IpEndpointName.cpp; sourceTree = "<group>"; };
 		5079B58416CB3705007E274F /* IpEndpointName.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = IpEndpointName.h; sourceTree = "<group>"; };
@@ -185,7 +195,7 @@
 		E45BE9770E8CC7DD009D7055 /* CoreServices.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreServices.framework; path = /System/Library/Frameworks/CoreServices.framework; sourceTree = "<absolute>"; };
 		E45BE9790E8CC7DD009D7055 /* OpenGL.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = OpenGL.framework; path = /System/Library/Frameworks/OpenGL.framework; sourceTree = "<absolute>"; };
 		E45BE97A0E8CC7DD009D7055 /* QuickTime.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = QuickTime.framework; path = /System/Library/Frameworks/QuickTime.framework; sourceTree = "<absolute>"; };
-		E4B69B5B0A3A1756003C02F2 /* syphon_CV_simpleDebug.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = syphon_CV_simpleDebug.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		E4B69B5B0A3A1756003C02F2 /* syphon_CV_contoursDebug.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = syphon_CV_contoursDebug.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		E4B69E1D0A3A1BDC003C02F2 /* main.cpp */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.cpp.cpp; name = main.cpp; path = src/main.cpp; sourceTree = SOURCE_ROOT; };
 		E4B69E1E0A3A1BDC003C02F2 /* testApp.cpp */ = {isa = PBXFileReference; explicitFileType = sourcecode.cpp.cpp; fileEncoding = 30; name = testApp.cpp; path = src/testApp.cpp; sourceTree = SOURCE_ROOT; };
 		E4B69E1F0A3A1BDC003C02F2 /* testApp.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; name = testApp.h; path = src/testApp.h; sourceTree = SOURCE_ROOT; };
@@ -391,6 +401,36 @@
 			name = calib3d;
 			sourceTree = "<group>";
 		};
+		5070B02816D59613005AC082 /* ofxXmlSettings */ = {
+			isa = PBXGroup;
+			children = (
+				5070B02916D59613005AC082 /* libs */,
+				5070B02E16D59613005AC082 /* src */,
+			);
+			name = ofxXmlSettings;
+			path = ../../../addons/ofxXmlSettings;
+			sourceTree = "<group>";
+		};
+		5070B02916D59613005AC082 /* libs */ = {
+			isa = PBXGroup;
+			children = (
+				5070B02A16D59613005AC082 /* tinyxml.cpp */,
+				5070B02B16D59613005AC082 /* tinyxml.h */,
+				5070B02C16D59613005AC082 /* tinyxmlerror.cpp */,
+				5070B02D16D59613005AC082 /* tinyxmlparser.cpp */,
+			);
+			path = libs;
+			sourceTree = "<group>";
+		};
+		5070B02E16D59613005AC082 /* src */ = {
+			isa = PBXGroup;
+			children = (
+				5070B02F16D59613005AC082 /* ofxXmlSettings.cpp */,
+				5070B03016D59613005AC082 /* ofxXmlSettings.h */,
+			);
+			path = src;
+			sourceTree = "<group>";
+		};
 		5079B57D16CB3705007E274F /* ofxOsc */ = {
 			isa = PBXGroup;
 			children = (
@@ -557,6 +597,7 @@
 		BB4B014C10F69532006C3DED /* addons */ = {
 			isa = PBXGroup;
 			children = (
+				5070B02816D59613005AC082 /* ofxXmlSettings */,
 				5079B57D16CB3705007E274F /* ofxOsc */,
 				E6DBC29416C43105009645E4 /* ofxSyphon */,
 				a0b90d3b0adb9c1716816714bf7f212b /* ofxOpenCv */,
@@ -620,7 +661,7 @@
 				E4EEC9E9138DF44700A80321 /* openFrameworks */,
 				BB4B014C10F69532006C3DED /* addons */,
 				E45BE5980E8CC70C009D7055 /* frameworks */,
-				E4B69B5B0A3A1756003C02F2 /* syphon_CV_simpleDebug.app */,
+				E4B69B5B0A3A1756003C02F2 /* syphon_CV_contoursDebug.app */,
 			);
 			sourceTree = "<group>";
 		};
@@ -795,9 +836,9 @@
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
-		E4B69B5A0A3A1756003C02F2 /* syphon_CV_simple */ = {
+		E4B69B5A0A3A1756003C02F2 /* syphon_CV_contours */ = {
 			isa = PBXNativeTarget;
-			buildConfigurationList = E4B69B5F0A3A1757003C02F2 /* Build configuration list for PBXNativeTarget "syphon_CV_simple" */;
+			buildConfigurationList = E4B69B5F0A3A1757003C02F2 /* Build configuration list for PBXNativeTarget "syphon_CV_contours" */;
 			buildPhases = (
 				E4B69B580A3A1756003C02F2 /* Sources */,
 				E4B69B590A3A1756003C02F2 /* Frameworks */,
@@ -809,9 +850,9 @@
 			dependencies = (
 				E4EEB9AC138B136A00A80321 /* PBXTargetDependency */,
 			);
-			name = syphon_CV_simple;
+			name = syphon_CV_contours;
 			productName = myOFApp;
-			productReference = E4B69B5B0A3A1756003C02F2 /* syphon_CV_simpleDebug.app */;
+			productReference = E4B69B5B0A3A1756003C02F2 /* syphon_CV_contoursDebug.app */;
 			productType = "com.apple.product-type.application";
 		};
 /* End PBXNativeTarget section */
@@ -819,7 +860,7 @@
 /* Begin PBXProject section */
 		E4B69B4C0A3A1720003C02F2 /* Project object */ = {
 			isa = PBXProject;
-			buildConfigurationList = E4B69B4D0A3A1720003C02F2 /* Build configuration list for PBXProject "syphon_CV_simple" */;
+			buildConfigurationList = E4B69B4D0A3A1720003C02F2 /* Build configuration list for PBXProject "syphon_CV_contours" */;
 			compatibilityVersion = "Xcode 2.4";
 			developmentRegion = English;
 			hasScannedForEncodings = 0;
@@ -840,7 +881,7 @@
 			);
 			projectRoot = "";
 			targets = (
-				E4B69B5A0A3A1756003C02F2 /* syphon_CV_simple */,
+				E4B69B5A0A3A1756003C02F2 /* syphon_CV_contours */,
 			);
 		};
 /* End PBXProject section */
@@ -901,6 +942,10 @@
 				5079B5B116CB3705007E274F /* ofxOscMessage.cpp in Sources */,
 				5079B5B216CB3705007E274F /* ofxOscReceiver.cpp in Sources */,
 				5079B5B316CB3705007E274F /* ofxOscSender.cpp in Sources */,
+				5070B03116D59613005AC082 /* tinyxml.cpp in Sources */,
+				5070B03216D59613005AC082 /* tinyxmlerror.cpp in Sources */,
+				5070B03316D59613005AC082 /* tinyxmlparser.cpp in Sources */,
+				5070B03416D59613005AC082 /* ofxXmlSettings.cpp in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1149,7 +1194,7 @@
 					"$(LIBRARY_SEARCH_PATHS_QUOTED_FOR_TARGET_52)",
 				);
 				PREBINDING = NO;
-				PRODUCT_NAME = syphon_CV_simpleDebug;
+				PRODUCT_NAME = syphon_CV_contoursDebug;
 				SDKROOT = "$(DEVELOPER_SDK_DIR)/MacOSX10.6.sdk";
 				WRAPPER_EXTENSION = app;
 			};
@@ -1271,7 +1316,7 @@
 					"$(LIBRARY_SEARCH_PATHS_QUOTED_FOR_TARGET_51)",
 				);
 				PREBINDING = NO;
-				PRODUCT_NAME = syphon_CV_simple;
+				PRODUCT_NAME = syphon_CV_contours;
 				SDKROOT = "$(DEVELOPER_SDK_DIR)/MacOSX10.6.sdk";
 				WRAPPER_EXTENSION = app;
 			};
@@ -1280,7 +1325,7 @@
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
-		E4B69B4D0A3A1720003C02F2 /* Build configuration list for PBXProject "syphon_CV_simple" */ = {
+		E4B69B4D0A3A1720003C02F2 /* Build configuration list for PBXProject "syphon_CV_contours" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				E4B69B4E0A3A1720003C02F2 /* Debug */,
@@ -1289,7 +1334,7 @@
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
 		};
-		E4B69B5F0A3A1757003C02F2 /* Build configuration list for PBXNativeTarget "syphon_CV_simple" */ = {
+		E4B69B5F0A3A1757003C02F2 /* Build configuration list for PBXNativeTarget "syphon_CV_contours" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				E4B69B600A3A1757003C02F2 /* Debug */,

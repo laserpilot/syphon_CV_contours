@@ -5,9 +5,7 @@
 #include "ofxSyphon.h"
 #include "ofxOpenCv.h"
 #include "ofxOsc.h"
-
-#define HOST "localhost"
-#define PORT 3142
+#include "ofxXmlSettings.h"
 
 class testApp : public ofBaseApp{
 
@@ -33,7 +31,7 @@ class testApp : public ofBaseApp{
     //Syphon
         ofxSyphonClient syphonInput;
         ofxSyphonServer syphonOutput;
-        string syphonAppIn, syphonAppOut;
+        string syphonAppIn, syphonServerIn, syphonServerOut;
     
     //Copying operations
         ofPixels pix;
@@ -78,6 +76,13 @@ class testApp : public ofBaseApp{
         int noiseAmount;
         bool extraSketches;
         bool boundingBox;
+    
+    string oscHostOut;
+    int oscPortOut;
+    int oscPortIn;
+    
+    ofxXmlSettings xml;
+    
     
     
 

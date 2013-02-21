@@ -3,10 +3,34 @@
 //--------------------------------------------------------------
 void testApp::setup(){
     
+    
+    xml.loadFile("appSettings.xml");
+    
+    camSize.x = xml.getValue("SETTINGS:WIDTH", 640);
+    camSize.y = xml.getValue("SETTINGS:HEIGHT", 480);
+    oscPortIn = xml.getValue("SETTINGS:OSCPORTIN", 3141);
+    oscHostOut = xml.getValue("SETTINGS:OSCHOSTOUT", "localhost");
+    oscPortOut = xml.getValue("SETTINGS:OSCPORTOUT", 3142);
+    syphonAppIn = xml.getValue("SETTINGS:SYPHONAPPIN", "VDMX");
+    syphonServerIn = xml.getValue("SETTINGS:SYPHONSERVERIN", "To_CV_1");
+    syphonServerOut = xml.getValue("SETTINGS:SYPHONSERVEROUT", "from_CV");
+    
+    cout << camSize.x <<endl;
+    cout << camSize.y <<endl;
+    cout << oscPortIn <<endl;
+    cout << oscHostOut <<endl;
+    cout << oscPortOut <<endl;
+    cout << syphonAppIn <<endl;
+    cout << syphonServerIn <<endl;
+    cout << syphonServerOut <<endl;
+
+    
     //Brings in image, draws lines around it, control over OSC
 
     camSize.x = 640; //keeping this small for examples, but change this if necessary
     camSize.y = 480;
+    
+    ofSetWindowShape(camSize.x, camSize.y);
     
     //Allocate for CV...shrinking if necessary
     if (camSize.x>=320 || camSize.y>=240) {
@@ -46,21 +70,20 @@ void testApp::setup(){
 	threshold = 80;
     
     //Syphon setup
-    ofSetFrameRate(30);
-    
-    syphonAppIn = "VDMX5";
+    ofSetFrameRate(60); //could lower this to 30 to maybe get less frame drops
     
     syphonInput.setup();
     syphonInput.setApplicationName(syphonAppIn);
-    syphonInput.setServerName("To_CV_1");
-    syphonOutput.setName("from_CV");
+    syphonInput.setServerName(syphonServerIn);
+    syphonOutput.setName(syphonServerOut);
     
     //Info
     overView = false;
     
     //OSC
-    vdmxOscIn.setup(3141); //VDMX OUTGOING OSC PORT
-    vdmxOscOut.setup(HOST, PORT);
+    vdmxOscIn.setup(oscPortIn); //VDMX OUTGOING OSC PORT
+    vdmxOscOut.setup(oscHostOut, oscPortOut);
+
     
     //Initial values for CV
     colorize = false;
@@ -174,6 +197,10 @@ void testApp::draw(){
 
     syphonOutput.publishTexture(&fboSyphonOut.getTextureReference()); //send the texture out via Syphon
 
+    
+    ofDrawBitmapString("OSC PORT OUT: " +ofToString(oscPortOut), 20,20);
+    ofDrawBitmapString("OSC PORT IN: " +ofToString(oscPortIn), 20,40);
+    
     //Debug view to show different stages of CV and also shows your background image
     if(overView){
         ofSetColor(255);
